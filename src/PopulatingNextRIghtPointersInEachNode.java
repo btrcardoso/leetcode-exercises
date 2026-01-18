@@ -48,36 +48,57 @@ public class PopulatingNextRIghtPointersInEachNode {
 
     public Node connect(Node root) {
 
-        if(root == null) {
-            return root;
+        if (root == null) {
+            return null;
         }
 
-        List<Node> queue = new ArrayList<Node>();
-        queue.add(root);
+        if (root.left != null) {
+            root.left.next = root.right;
 
-        while (!queue.isEmpty()) {
-            int sizeQueue = queue.size();
-
-            for (int i = 0 ; i < sizeQueue ; i++) {
-                Node currentNode = queue.remove(0);
-
-                if (!queue.isEmpty()) {
-                    Node next = queue.get(0);
-                    if (i < sizeQueue - 1) {
-                        currentNode.next = next;
-                    }
-                }
-
-                if (currentNode.left != null && currentNode.right != null) {
-                    queue.add(currentNode.left);
-                    queue.add(currentNode.right);
-                }
-
+            if (root.next != null) {
+                root.right.next = root.next.left;
             }
-
         }
+
+        connect(root.left);
+        connect(root.right);
 
         return root;
 
     }
+
+//    public Node connect(Node root) {
+//
+//        if(root == null) {
+//            return root;
+//        }
+//
+//        List<Node> queue = new ArrayList<Node>();
+//        queue.add(root);
+//
+//        while (!queue.isEmpty()) {
+//            int sizeQueue = queue.size();
+//
+//            for (int i = 0 ; i < sizeQueue ; i++) {
+//                Node currentNode = queue.remove(0);
+//
+//                if (!queue.isEmpty()) {
+//                    Node next = queue.get(0);
+//                    if (i < sizeQueue - 1) {
+//                        currentNode.next = next;
+//                    }
+//                }
+//
+//                if (currentNode.left != null && currentNode.right != null) {
+//                    queue.add(currentNode.left);
+//                    queue.add(currentNode.right);
+//                }
+//
+//            }
+//
+//        }
+//
+//        return root;
+//
+//    }
 }
