@@ -5,113 +5,205 @@ import java.util.ArrayList;
 
 public class WordSearch {
 
-    class Node {
-        public int row;
-        public int column;
-        public Node lastVisited;
+    public int m;
+    public int n;
+    public char[][] board;
 
-        public Node (int r, int c) {
-            this.row = r;
-            this.column = c;
-        }
-    }
+    public boolean dfs(int i, int j, String word) {
 
-    public boolean validPosition(Node node, char[][] board){
-        int i = node.row;
-        int j = node.column;
-
-        int m = board.length;
-        int n = m == 0 ? 0 : board[0].length;
-
-        return validPositionInt(i,j,m,n);
-    }
-
-    public boolean validPositionInt(int i, int j, int m, int n){
-        return (-1 < i) && (i < m) && (-1 < j) && (j < n);
-    }
-
-    public boolean alreadyOnStack(Node node, List<Node> stack) {
-        for (Node listNode : stack) {
-            if (node.row == listNode.row && node.column == listNode.column) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean dfs(Node root, char[][] board, String word, List<Node> stack) {
-
-        if (word.length() == 0) {
-            return true;
-        }
-
-        if (!validPosition(root, board) || alreadyOnStack(root, stack)) {
-            if(stack.size() > 0){
-                stack.remove(stack.size()-1);
-            }
+        if (!(-1 < i && i < this.m && -1 < j && j < this.n)) {
             return false;
         }
 
-        if ( board[root.row][root.column] == word.charAt(0) ) {
+        if (this.board[i][j] == '0') {
+            return false;
+        }
 
-            do {
+        if (word.length() == 1) {
+            return this.board[i][j] == word.charAt(0);
+        }
 
-                if (root.lastVisited == null) {
-                    root.lastVisited = new Node(root.row, root.column + 1);
+        char currentChar = this.board[i][j];
 
-                } else if (root.lastVisited.row == root.row && root.lastVisited.column == root.column + 1) {
-                    root.lastVisited = new Node(root.row + 1, root.column);
+        if (currentChar == word.charAt(0)) {
 
-                } else if (root.lastVisited.row == root.row + 1 && root.lastVisited.column == root.column) {
-                    root.lastVisited = new Node(root.row, root.column - 1);
+            this.board[i][j] = '0';
 
-                } else if (root.lastVisited.row == root.row && root.lastVisited.column == root.column - 1) {
-                    root.lastVisited = new Node(root.row - 1, root.column);
+            int row = -1;
+            int column = -1;
+            boolean result = false;
+
+            while (result == false) {
+
+                if (row == -1 && column == -1) {
+                    // right
+                    row = i;
+                    column = j + 1;
+
+                } else if (row == i && column == j + 1) {
+                    // bottom
+                    row = i + 1;
+                    column = j;
+
+                } else if (row == i + 1 && column == j) {
+                    // left
+                    row = i;
+                    column = j - 1;
+
+                } else if (row == i && column == j - 1) {
+                    // up
+                    row = i - 1;
+                    column = j;
 
                 } else {
-                    if(stack.size() > 0){
-                        stack.remove(stack.size()-1);
-                    }
+                    // backtracking
+                    this.board[i][j] = currentChar;
                     return false;
                 }
 
-                stack.add(root);
+                result = dfs(row, column, word.substring(1));
 
-            } while (! dfs(root.lastVisited, board, word.substring(1), stack) );
+                if (result == true) {
+                    return true;
+                }
 
-            return true;
-
-        } else {
-            if(stack.size() > 0){
-                stack.remove(stack.size()-1);
             }
-            return false;
+
         }
+
+        return false;
 
     }
 
     public boolean exist(char[][] board, String word) {
-        List<Node> stack = new ArrayList<>();
-        Node root = new Node(0,0);
 
-        while ( !dfs(root, board, word, stack) ) {
+        this.board = board;
+        this.m = this.board.length;
+        this.n = this.m == 0 ? 0 : this.board[0].length;
 
-            int m = board.length;
-            int n = m == 0 ? 0 : board[0].length;
-            int newRow = root.column == n-1 ? root.row + 1 : root.row;
-            int newColumn = (root.column + 1) % n;
-
-            root = new Node(newRow, newColumn);
-
-            if (!validPosition(root, board)) {
-                return false;
+        for (int i = 0; i < this.m; i++) {
+            for (int j = 0; j < this.n; j++) {
+                if ( dfs(i, j, word) ) {
+                    return true;
+                }
             }
 
         }
 
-        return true;
+        return false;
+
     }
 
+    // solution 2
+
+//    class Node {
+//        public int row;
+//        public int column;
+//        public Node lastVisited;
+//
+//        public Node (int r, int c) {
+//            this.row = r;
+//            this.column = c;
+//        }
+//    }
+//
+//    public boolean validPosition(Node node, char[][] board){
+//        int i = node.row;
+//        int j = node.column;
+//
+//        int m = board.length;
+//        int n = m == 0 ? 0 : board[0].length;
+//
+//        return validPositionInt(i,j,m,n);
+//    }
+//
+//    public boolean validPositionInt(int i, int j, int m, int n){
+//        return (-1 < i) && (i < m) && (-1 < j) && (j < n);
+//    }
+//
+//    public boolean alreadyOnStack(Node node, List<Node> stack) {
+//        for (Node listNode : stack) {
+//            if (node.row == listNode.row && node.column == listNode.column) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+//
+//    public boolean dfs(Node root, char[][] board, String word, List<Node> stack) {
+//
+//        if (word.length() == 0) {
+//            return true;
+//        }
+//
+//        if (!validPosition(root, board) || alreadyOnStack(root, stack)) {
+//            if(stack.size() > 0){
+//                stack.remove(stack.size()-1);
+//            }
+//            return false;
+//        }
+//
+//        if ( board[root.row][root.column] == word.charAt(0) ) {
+//
+//            do {
+//
+//                if (root.lastVisited == null) {
+//                    root.lastVisited = new Node(root.row, root.column + 1);
+//
+//                } else if (root.lastVisited.row == root.row && root.lastVisited.column == root.column + 1) {
+//                    root.lastVisited = new Node(root.row + 1, root.column);
+//
+//                } else if (root.lastVisited.row == root.row + 1 && root.lastVisited.column == root.column) {
+//                    root.lastVisited = new Node(root.row, root.column - 1);
+//
+//                } else if (root.lastVisited.row == root.row && root.lastVisited.column == root.column - 1) {
+//                    root.lastVisited = new Node(root.row - 1, root.column);
+//
+//                } else {
+//                    if(stack.size() > 0){
+//                        stack.remove(stack.size()-1);
+//                    }
+//                    return false;
+//                }
+//
+//                stack.add(root);
+//
+//            } while (! dfs(root.lastVisited, board, word.substring(1), stack) );
+//
+//            return true;
+//
+//        } else {
+//            if(stack.size() > 0){
+//                stack.remove(stack.size()-1);
+//            }
+//            return false;
+//        }
+//
+//    }
+//
+//    public boolean exist(char[][] board, String word) {
+//        List<Node> stack = new ArrayList<>();
+//        Node root = new Node(0,0);
+//
+//        while ( !dfs(root, board, word, stack) ) {
+//
+//            int m = board.length;
+//            int n = m == 0 ? 0 : board[0].length;
+//            int newRow = root.column == n-1 ? root.row + 1 : root.row;
+//            int newColumn = (root.column + 1) % n;
+//
+//            root = new Node(newRow, newColumn);
+//
+//            if (!validPosition(root, board)) {
+//                return false;
+//            }
+//
+//        }
+//
+//        return true;
+//    }
+
+    // solution 1
 //    class Node {
 //        public int row;
 //        public int column;
