@@ -2,34 +2,58 @@ package codesignal;
 
 import java.util.Arrays;
 
-// TODO: try again
-//  nao consegui :(
+// TODO: redo
 
 public class AlmostIncreasingSequence {
 
     public static boolean almostIncreasingSequence(int[] sequence) {
+        int countError = 0;
 
-        int count = 0;
+        for (int i=1; i<sequence.length; i++) {
 
-        for(int i = 0; i< sequence.length-1; i++) {
+            // error: the previous is greater than the current
+            if (sequence[i-1] >= sequence[i]) {
+                countError++;
 
-            if(sequence[i] >= sequence[i+1]) {
-                count++;
-            }
+                if (countError > 1) return false;
 
-            if(count > 1) {
-                return false;
-            }
+                boolean skipCurrent = i+1 < sequence.length && sequence[i-1] >= sequence[i+1]; // take out the current
+                boolean skipPrevious = i-2 >= 0 && sequence[i-2] >= sequence[i];               // take out the previous
 
-            if(sequence[i] >= sequence[i+1] && i-1 > 0 && sequence[i-1] >= sequence[i+1]) {
-                return false;
+                if (skipCurrent && skipPrevious) return false; // if I took both out and got not satisfied, then it is false
             }
 
         }
 
         return true;
-
     }
+
+    /*
+
+    1, 2, 3, 4, 3, 6
+
+
+     */
+
+    /*
+
+
+    contar quantos elementos são picos i > i+1
+
+    count = 1
+            se achei o pico e
+            i-1 >= i+1        -> false
+
+
+
+    4 2 5 2 6
+
+
+     */
+
+
+
+
 
     public static void main(String[] args) {
 
