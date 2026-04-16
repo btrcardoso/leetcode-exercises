@@ -15,6 +15,7 @@ public class InterestingDataStructures {
 
         String str = "";
         char[] charStr = str.toCharArray();
+        String backToStr  =new String(charStr);
 
         Queue<Character> queue = new ArrayDeque<>();
         queue.add('a');
@@ -22,5 +23,11 @@ public class InterestingDataStructures {
         queue.poll(); // remove retorna 'a'
         queue.peek(); // shows the first one
 
+        StringBuilder sb = new StringBuilder();
+
+    }
+
+    public static String reverse(String subs) {
+        return new StringBuilder(subs).reverse().toString();
     }
 }
