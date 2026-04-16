@@ -2,12 +2,21 @@ package codesignal;
 
 import java.util.Arrays;
 
-// TODO redo
-
 public class ArrayChange {
     public static int arrayChange(int[] inputArray) {
-        // TODO: implementar
-        return 0;
+        int count = 0;
+
+        for(int i=1; i<inputArray.length;i++){
+
+            if (inputArray[i-1] >= inputArray[i]) {
+                int sum = inputArray[i-1] - inputArray[i] + 1;
+                inputArray[i] += sum;
+                count += sum;
+            }
+
+        }
+
+        return count;
     }
 
     public static void main(String[] args) {
