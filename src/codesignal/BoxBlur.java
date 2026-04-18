@@ -3,6 +3,7 @@ package codesignal;
 import java.util.Arrays;
 
 // o(m*n*9) = o(m*n)
+//https://www.youtube.com/watch?v=kdUaM2XSo0E
 
 public class BoxBlur {
     public static int[][] boxBlur(int[][] image) {

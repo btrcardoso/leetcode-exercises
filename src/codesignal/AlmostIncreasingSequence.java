@@ -3,6 +3,7 @@ package codesignal;
 import java.util.Arrays;
 
 // TODO: redo
+//https://www.youtube.com/watch?v=QbKbfsnAv2E
 
 public class AlmostIncreasingSequence {
 

@@ -24,10 +24,7 @@ public class InterestingDataStructures {
         queue.peek(); // shows the first one
 
         StringBuilder sb = new StringBuilder();
+        String reverted = sb.reverse().toString();
 
-    }
-
-    public static String reverse(String subs) {
-        return new StringBuilder(subs).reverse().toString();
     }
 }
