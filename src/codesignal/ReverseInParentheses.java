@@ -1,6 +1,5 @@
 package codesignal;
-
-import java.util.Arrays;
+import java.util.*;
 
 //https://www.youtube.com/watch?v=jFZZTScWM44&t=4s
 
@@ -8,21 +7,23 @@ public class ReverseInParentheses {
 
     public static String reverseInParentheses(String inputString) {
 
-        while(inputString.contains("(")) {
-            int first = inputString.lastIndexOf('(');
-            int last = inputString.substring(first).indexOf(')') + first;
+        int lastOpen = inputString.lastIndexOf("(");
 
-            String reverted = reverse(inputString.substring(first+1, last));
-            inputString = inputString.substring(0, first) + reverted + inputString.substring(last+1);
+        while (lastOpen > -1) {
+            int firstClose = inputString.indexOf(")", lastOpen);
+
+            String part = inputString.substring(lastOpen+1, firstClose);
+
+            StringBuilder reverted = new StringBuilder(part).reverse();
+
+            inputString = inputString.substring(0, lastOpen) + reverted + inputString.substring(firstClose+1, inputString.length());
+
+            lastOpen = inputString.lastIndexOf("(");
         }
 
         return inputString;
     }
 
-    // receives a string like this abc
-    public static String reverse(String subs) {
-        return new StringBuilder(subs).reverse().toString();
-    }
 
     public static void main(String[] args) {
 

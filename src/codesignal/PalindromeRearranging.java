@@ -1,9 +1,8 @@
 package codesignal;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
+//https://www.youtube.com/watch?v=uw_cHJ5Ednw
 
 public class PalindromeRearranging {
 
@@ -15,22 +14,20 @@ public class PalindromeRearranging {
 
     public static boolean palindromeRearranging(String inputString) {
 
-        char[] text = inputString.toCharArray();
+        Set<Character> elements = new HashSet<>();
 
-        Set<Character> set = new HashSet<>();
+        for(int i=0; i<inputString.length(); i++) {
 
-        for (int i=0; i<text.length; i++) {
+            Character ch = inputString.charAt(i);
 
-            Character ch = text[i];
-            if (set.contains(ch)) {
-                set.remove(ch);
-            } else {
-                set.add(ch);
+            if (!elements.add(ch)) {
+                elements.remove(ch);
             }
 
         }
 
-        return set.size() < 2;
+        return elements.size() < 2;
+
     }
 
     public static void main(String[] args) {
