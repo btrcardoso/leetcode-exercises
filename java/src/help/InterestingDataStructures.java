@@ -26,5 +26,10 @@ public class InterestingDataStructures {
         StringBuilder sb = new StringBuilder();
         String reverted = sb.reverse().toString();
 
+        // Instanciar arrays
+        int[] nums = new int[5];
+        int[] nums2 = {1,2,3};
+        Arrays.sort(nums);
+
     }
 }
