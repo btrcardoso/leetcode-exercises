@@ -29,7 +29,7 @@ public class InterestingDataStructures {
         // Instanciar arrays
         int[] nums = new int[5];
         int[] nums2 = {1,2,3};
-        Arrays.sort(nums);
+        Arrays.sort(nums2);
 
     }
 }
