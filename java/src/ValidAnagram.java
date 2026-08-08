@@ -61,7 +61,7 @@ public class ValidAnagram {
     Time complexity: n + m = O(n + m)
     Space complexity: 26 = O(1) 
     */
-    public boolean isAnagram(String s, String t) {
+    public static boolean isAnagram(String s, String t) {
         Map<Character, Integer> map = new HashMap<>();
 
         for (int i = 0; i < s.length(); i++) {
