@@ -3,6 +3,40 @@ import java.util.*;
 
 public class GroupAnagrams {
 
+    /*
+
+    strs.length: n
+    longest word: m
+
+    Time complexity: n * m = O(n*m)
+    Space complexity: n * (m + 26)
+
+    */
+
+    public List<List<String>> groupAnagrams_HashTable(String[] strs) {
+
+        Map<String, List<String>> map = new HashMap<>();
+
+        for (String str : strs) {
+
+            char[] charStr = str.toCharArray();
+            int[] count = new int[26];
+
+            for (int i=0 ;i < charStr.length; i++) {
+                count[charStr[i] - 'a'] ++;
+            }
+
+            String key = Arrays.toString(count); // 0010000101020300000
+
+            map.putIfAbsent(key, new ArrayList<>());
+
+            map.get(key).add(str);
+
+        }
+
+        return new ArrayList<>(map.values());
+    }
+
 
     /*
     ["eat", "tea", "tan", "ate", "nat", "bat"]
@@ -24,7 +58,7 @@ public class GroupAnagrams {
     
     */
 
-    public List<List<String>> groupAnagrams(String[] strs) { 
+    public List<List<String>> groupAnagrams_Sorting(String[] strs) { 
 
         Map<String, List<String>> map = new HashMap<>(); 
         
@@ -44,6 +78,7 @@ public class GroupAnagrams {
         return new ArrayList<>(map.values());
 
     }
+
 }
 
 /*
