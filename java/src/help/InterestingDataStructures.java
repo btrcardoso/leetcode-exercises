@@ -40,5 +40,7 @@ public class InterestingDataStructures {
         txt.split("");          // O(n)
         txt.substring(1);  // O(1) to find, O(n) to copy the string into another
 
+        String intToStr = Integer.toString(1);
+
     }
 }
