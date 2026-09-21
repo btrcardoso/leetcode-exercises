@@ -14,7 +14,7 @@ class Printer
  
 }
 
-public class Solution {
+public class JavaGeneric {
 
 
     public static void main( String args[] ) {
