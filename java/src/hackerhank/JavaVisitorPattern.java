@@ -79,69 +79,86 @@ abstract class TreeVis
 
 }
 
+
 class SumInLeavesVisitor extends TreeVis {
+    
+    public int sum = 0;
+    
     public int getResult() {
-      	//implement this
-        return 0;
+        return sum;
     }
 
-    public void visitNode(TreeNode node) {
-      	//implement this
-    }
+    public void visitNode(TreeNode node) {}
 
     public void visitLeaf(TreeLeaf leaf) {
-      	//implement this
+      	this.sum += leaf.getValue();
     }
 }
 
-class ProductOfRedNodesVisitor extends TreeVis {
+    class ProductOfRedNodesVisitor extends TreeVis {
+    
+    int product = 1;
+    
     public int getResult() {
-      	//implement this
-        return 1;
+      	return product;
     }
 
     public void visitNode(TreeNode node) {
-      	//implement this
+      	if (node.getColor() == Color.RED) {
+            int val = node.getValue() == 0 ? 1 : node.getValue();
+            product *= val;
+        }
     }
 
     public void visitLeaf(TreeLeaf leaf) {
-      	//implement this
+      	if (leaf.getColor() == Color.RED) {
+            int val = leaf.getValue() == 0 ? 1 : leaf.getValue();
+            product *= val;
+        }
     }
 }
 
 class FancyVisitor extends TreeVis {
+    
+    int greenLeavesSum = 0;
+    int nodesSum = 0;
+    
     public int getResult() {
-      	//implement this
-        return 0;
+        return Math.abs(greenLeavesSum - nodesSum);
     }
 
     public void visitNode(TreeNode node) {
-    	//implement this
+        if (node.getDepth() % 2 == 0) {
+            nodesSum += node.getValue();
+        }
     }
 
     public void visitLeaf(TreeLeaf leaf) {
-    	//implement this
+    	if (leaf.getColor() == Color.GREEN) {
+            greenLeavesSum += leaf.getValue();
+        }
     }
 }
-
 public class JavaVisitorPattern {
     
-    public static void print (Tree t) {
-        
-        System.out.print(" <" + t.getValue());
+    public static void print (Tree t, int depth) {
+
+        String separator = "  ".repeat(depth);
         
         if (t instanceof TreeNode) {
+            System.out.println(separator + "<" + t.getValue());
+
             TreeNode tn = (TreeNode) t;
-            
             if (tn.getChildren().size() > 0) {
                 for (Tree child : tn.getChildren()) {
-                    print(child);
+                    print(child, depth + 1);
                 }
             }
-            
+
+            System.out.println(separator + ">");
+        } else {       
+            System.out.println(separator + "<" + t.getValue() + ">");
         }
-        
-        System.out.print(">");
         
     }
   
@@ -195,7 +212,7 @@ public class JavaVisitorPattern {
             p.addChild(nodes[child[i]]);
         }
 
-        // print(nodes[0]);
+        print(nodes[0], 0);
         
         return nodes[0];
     }
