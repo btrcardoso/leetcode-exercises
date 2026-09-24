@@ -144,9 +144,10 @@ public class JavaVisitorPattern {
     public static void print (Tree t, int depth) {
 
         String separator = "  ".repeat(depth);
+        String nodeToPrint = "(" + t.getValue() + "," + t.getDepth() + ")";
         
         if (t instanceof TreeNode) {
-            System.out.println(separator + "<" + t.getValue());
+            System.out.println(separator + "<" + nodeToPrint);
 
             TreeNode tn = (TreeNode) t;
             if (tn.getChildren().size() > 0) {
@@ -157,7 +158,7 @@ public class JavaVisitorPattern {
 
             System.out.println(separator + ">");
         } else {       
-            System.out.println(separator + "<" + t.getValue() + ">");
+            System.out.println(separator + "<" + nodeToPrint + ">");
         }
         
     }
