@@ -1,8 +1,8 @@
-package LearningAnnotations;
+package help.LearningAnnotations;
 
 @VeryImportant 
 public class Cat {
-    
+
     @ImportantString
     String name;
 
