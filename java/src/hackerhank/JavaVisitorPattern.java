@@ -4,6 +4,8 @@ import java.text.*;
 import java.math.*;
 import java.util.regex.*;
 
+// TODO: não resolvida
+
 enum Color {
     RED, GREEN
 }
@@ -162,14 +164,19 @@ public class JavaVisitorPattern {
         }
         
     }
+
+    private static Map<Integer, List<Integer>> map = new HashMap<>();
+    private static int[] values;
+    private static Color[] colors;
+
   
     public static Tree solve() {
         
         Scanner s = new Scanner(System.in);
         
         int n = s.nextInt();
-        int[] values = new int[n];
-        Color[] colors = new Color[n];
+        values = new int[n];
+        colors = new Color[n];
         
         for (int i = 0; i < n; i++) {
             values[i] = s.nextInt();
@@ -180,47 +187,47 @@ public class JavaVisitorPattern {
             colors[i] = color == 0 ? Color.RED : Color.GREEN;
         }
         
-        Tree[] nodes = new Tree[n];
-        
-        int[] parent = new int[n-1];
-        int[] child = new int[n-1];
-        
-        for (int i=0; i<n-1; i++){
+        for (int i=0; i<n-1; i++) {
             int u = s.nextInt() - 1;
             int v = s.nextInt() - 1;
             
-            parent[i] = u;
-            child[i] = v;
-            
-            if (nodes[u] == null) {
-                TreeNode node = new TreeNode(values[u], colors[u], 0);
-                nodes[u] = node;
-            }
-            
-            if (nodes[u] instanceof TreeLeaf) {
-                TreeLeaf leaf = (TreeLeaf) nodes[u];
-                nodes[u] = new TreeNode(leaf.getValue(), leaf.getColor(), leaf.getDepth());
-            } 
-            
-            if (nodes[v] == null) {
-                TreeLeaf leaf = new TreeLeaf(values[v], colors[v], nodes[u].getDepth() + 1);
-                nodes[v] = leaf;
-            }
+            List<Integer> uList = map.get(u) == null ? new ArrayList<>() : map.get(u);
+            uList.add(v);
+            map.put(u, uList);
+
+            List<Integer> vList = map.get(v) == null ? new ArrayList<>() : map.get(v);
+            vList.add(u);
+            map.put(v, vList);
         }
         
-        for (int i=0; i<n-1; i++){
-            TreeNode p = (TreeNode) nodes[parent[i]];
-            p.addChild(nodes[child[i]]);
+        return buildTree(0, 0, -1);
+    }
+
+    public static Tree buildTree(int current, int depth, int parent) {
+
+        // save node somewhere to return them here if they already exists
+
+        List<Integer> children = map.get(current);
+        TreeNode currentNode = new TreeNode(values[current], colors[current], depth);
+        boolean hasChildren = false;
+
+        for (Integer child : children) {
+            if (child != parent) {
+                Tree treeChild = buildTree(child, depth + 1, current);
+                currentNode.addChild(treeChild);
+                hasChildren = true;
+            }
         }
 
-        print(nodes[0], 0);
-        
-        return nodes[0];
+        // see it again because some leves can have 2 parents
+
+        return hasChildren ? currentNode : new TreeLeaf(values[current], colors[current], depth) ;
     }
 
 
     public static void main(String[] args) {
       	Tree root = solve();
+        /*
 		SumInLeavesVisitor vis1 = new SumInLeavesVisitor();
       	ProductOfRedNodesVisitor vis2 = new ProductOfRedNodesVisitor();
       	FancyVisitor vis3 = new FancyVisitor();
@@ -236,5 +243,6 @@ public class JavaVisitorPattern {
       	System.out.println(res1);
      	System.out.println(res2);
     	System.out.println(res3);
+        */
 	}
 }

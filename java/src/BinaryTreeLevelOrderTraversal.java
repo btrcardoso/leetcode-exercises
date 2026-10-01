@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 
 
@@ -19,7 +21,84 @@ public class BinaryTreeLevelOrderTraversal {
             this.right = right;
         }}
 
-    public List<List<Integer>> levelOrder(TreeNode root) {
+        public List<List<Integer>> levelOrder(TreeNode root) {
+
+
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        List<List<Integer>> result = new ArrayList<>();
+
+        if (root != null) queue.add(root);
+
+        while (queue.size() > 0) {
+
+            int count = queue.size();
+
+            List<Integer> level = new ArrayList<>();
+            while (count > 0) {
+                TreeNode cur = queue.poll();
+
+                level.add(cur.val);
+
+                if (cur.left != null) queue.add(cur.left);
+                if (cur.right != null) queue.add(cur.right);
+
+                count --;
+            }
+
+            result.add(level);
+
+        }
+
+        return result;
+
+
+
+    }
+    
+    public List<List<Integer>> levelOrder_2stacks(TreeNode root) {
+
+        List<List<Integer>> result = new ArrayList<>();
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        Queue<Integer> levels = new LinkedList<>();
+
+        if (root != null) {
+            queue.add(root);
+            levels.add(0);
+        }
+
+        while (queue.size() > 0) {
+
+            TreeNode cur = queue.poll();
+            int l = levels.poll();
+
+            List<Integer> nodesInLevel = l < result.size() ? result.get(l) : new ArrayList<>();
+            nodesInLevel.add(cur.val);
+
+            if (l < result.size()) {
+                result.set(l, nodesInLevel);
+            } else {
+                result.add(nodesInLevel);
+            }
+
+            if (cur.left != null) {
+                queue.add(cur.left);
+                levels.add(l + 1);
+            }
+
+            if (cur.right != null) {
+                queue.add(cur.right);
+                levels.add(l + 1);
+            }
+
+        }
+
+        return result;
+        
+    }
+
+    public List<List<Integer>> levelOrder_old(TreeNode root) {
 
         if (root == null) {
             return new ArrayList<List<Integer>>();

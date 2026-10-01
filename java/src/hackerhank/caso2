@@ -1,0 +1,41 @@
+5
+4 7 2 5 12
+0 1 0 0 1
+1 3
+3 4
+4 2
+1 2
+
+
+
+/*
+
+salvar as arestas.
+
+Map<Integer, List<Integer>>
+0, [2,1]
+1, [3,0]
+2, [0,3]
+3, [2,1]
+
+
+começar a montar.
+
+busca 0 no map:
+
+crio node0(4,0)
+    conecto no leaf2(2,parentDepth+1, paiPraLembrar) -> continuo procurando os filhos dele e retorno a Tree de _ já montada.
+
+
+
+
+
+for (Map.Entry<Integer, List<Integer>> edge : edges.entrySet()) {
+            System.out.print(edge.getKey() + ", [");
+            for (Integer val : edge.getValue()) {
+                System.out.print(val + ",");
+            }
+            System.out.print("]\n");
+        }
+
+*/
