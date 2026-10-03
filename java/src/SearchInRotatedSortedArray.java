@@ -1,5 +1,44 @@
 public class SearchInRotatedSortedArray {
 
+    public int search(int[] nums, int target) {
+
+        int l = 0;
+        int r = nums.length - 1;
+
+        while (l <= r) {
+
+            int mid = (l + r) / 2;
+
+            if (nums[mid] == target) {
+                return mid;
+            }
+
+            if (nums[l] <= nums[mid]) { // left array + mid is sorted
+
+                if (nums[l] <= target && target < nums[mid]) {  // target is in left array
+                    r = mid - 1; // go to left array
+                } else {
+                    l = mid + 1; // go to right array
+                }
+
+            } else { // left array + mid is not sorted, then right array is sorted
+
+                if (nums[mid] < target && target <= nums[r]) { // target is in right array
+                    l = mid + 1; // go to right array
+                } else {
+                    r = mid - 1; // go to left array
+                }
+
+            }
+
+        }
+
+        return -1;
+        
+    }
+
+
+
     public boolean arrayIsSorted(int[] nums, int first, int last) {
         return nums[first] <= nums[last];
     }
@@ -8,7 +47,7 @@ public class SearchInRotatedSortedArray {
         return nums[first] <= target && target <= nums[last];
     }
 
-    public int search(int[] nums, int target) {
+    public int search_(int[] nums, int target) {
 
         int first = 0;
         int last = nums.length - 1;
