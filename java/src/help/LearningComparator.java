@@ -11,7 +11,7 @@ public class LearningComparator {
         
         String[] s = new String[]{"9","-100","50","0","56.6","90","0.12",".12","02.34","000.000"};
         
-        Arrays.sort(s, new Comparator<Object>() {
+        Comparator comparator = new Comparator<Object>() {
     
             public int compare(Object a1, Object a2) {
 
@@ -21,7 +21,8 @@ public class LearningComparator {
                 return bigDec2.compareTo(bigDec1);
             }
             
-        });
+        };
+        Arrays.sort(s, comparator);
 
         for(int i=0;i<s.length;i++)
         {
@@ -29,3 +30,9 @@ public class LearningComparator {
         }
     }
 }
+
+/*
+
+{(x, y) such that c.compare(x, y) <= 0}
+
+*/

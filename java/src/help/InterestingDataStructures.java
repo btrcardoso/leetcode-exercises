@@ -34,6 +34,8 @@ public class InterestingDataStructures {
         int[] nums2 = {1,2,3};
         Arrays.sort(nums2);
 
+        System.out.println(Arrays.toString(nums)); // print arrays fast
+
         String txt = "oi";
         txt.length();                  // O(1)
         txt.indexOf("i");         // O(n) pior caso
