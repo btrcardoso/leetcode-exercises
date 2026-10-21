@@ -47,4 +47,40 @@ public class CombinationTargetSum {
         return result;
 
     }
+
+
+    class BackTrackingSolution {
+
+    List<List<Integer>> result = new ArrayList<>();
+
+    private void backtrack(int i, List<Integer> list, int target, int[] nums) {
+
+        if (target == 0) {
+            result.add(new ArrayList<>(list));
+            return;
+        }
+
+        if (i == nums.length || nums[i] > target) {
+            return;
+        }
+
+        list.add(nums[i]);
+        backtrack(i, list, target - nums[i], nums);
+        list.remove(list.size() - 1);
+        backtrack(i+1, list, target, nums);
+
+    }
+
+
+    public List<List<Integer>> combinationSum(int[] nums, int target) {
+
+        Arrays.sort(nums);
+
+        backtrack(0, new ArrayList<>(), target, nums);
+
+        return result;
+
+    }
+}
+
 }
