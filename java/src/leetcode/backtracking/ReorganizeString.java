@@ -52,7 +52,7 @@ public class ReorganizeString {
                 node.qt--;
                 last = node.c;
 
-            } else if (queue.size() > 0) {      // add the one with the second biggest frequency
+            } else if (queue.size() > 0) {      // add the one with the second most frequent
                 Node nextNode = queue.remove();
 
                 sb.append(nextNode.c);
