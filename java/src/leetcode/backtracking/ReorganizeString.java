@@ -40,7 +40,6 @@ public class ReorganizeString {
             queue.add(new Node(entry.getKey(), entry.getValue()));
         }
 
-        int i = 0;
         StringBuilder sb = new StringBuilder();
         char last = '#';
 
