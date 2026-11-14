@@ -14,7 +14,7 @@ class DailyTemperatures {
                 result[peek] = i - peek;
             }
                 
-            stack.add(i);
+            stack.addEdge(i);
 
         }
 
