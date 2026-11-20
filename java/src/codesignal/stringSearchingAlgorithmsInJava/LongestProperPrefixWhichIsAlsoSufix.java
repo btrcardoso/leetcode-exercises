@@ -5,14 +5,12 @@ import java.util.Arrays;
 public class LongestProperPrefixWhichIsAlsoSufix {
 
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(computeLPSArray("ABAAABA")));
+        System.out.println(Arrays.toString(computeLPSArray("ABAAABA"))); // [0,0,1,1,1,2,3]
+        System.out.println(Arrays.toString(computeLPSArray("ABACABA"))); // [0,0,1,0,1,2,3] 
     }
     
     /*
-        [A,B,A,C,A,B,A]         [A,B,A,A,A,B,A]
-        [0,0,1,0,1,2,3]         [0,0,1,1,1,2,3]        
-        
-        Aramazena o tamanho do maior prefixo (que também é sufixo) até aquele ponto
+        Armazena o tamanho do maior prefixo (que também é sufixo) até aquele ponto
     */
     private static int[] computeLPSArray(String pattern) {
         int l = 0; // last element of prefix / length of prefix
