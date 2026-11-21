@@ -2,17 +2,18 @@ package codesignal.stringSearchingAlgorithmsInJava;
 
 import java.util.Arrays;
 
-public class LongestProperPrefixWhichIsAlsoSufix {
+public class LPS {
 
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(computeLPSArray("ABAAABA"))); // [0,0,1,1,1,2,3]
-        System.out.println(Arrays.toString(computeLPSArray("ABACABA"))); // [0,0,1,0,1,2,3] 
+        System.out.println(Arrays.toString(computeLPSArray("ABAAABA")));      // [0,0,1,1,1,2,3]
+        System.out.println(Arrays.toString(computeLPSArray("ABACABA")));      // [0,0,1,0,1,2,3] 
+        System.out.println(Arrays.toString(computeLPSArray("abxabcabcaby"))); // [0,0,0,1,2,0,1,2,0,1,2,0]
     }
     
     /*
         Armazena o tamanho do maior prefixo (que também é sufixo) até aquele ponto
     */
-    private static int[] computeLPSArray(String pattern) {
+    public static int[] computeLPSArray(String pattern) {
         int l = 0; // last element of prefix / length of prefix
         int r = 1; // current position of the sufix
 
@@ -71,8 +72,6 @@ A,B,A,C,A,B,A   lps=[0,0,1,0,1,2,0]
 A,B,A,C,A,B,A   lps=[0,0,1,0,1,2,0] case1         
       l     r
 A,B,A,C,A,B,A   lps=[0,0,1,0,1,2,3] 
-
-
 
     */
 
