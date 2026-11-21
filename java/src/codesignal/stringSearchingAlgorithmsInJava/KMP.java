@@ -16,35 +16,36 @@ Result = 6
 
 */
 public class KMP {
-    public static int kmp(String text, String pattern) {
-
+    
+    private static int kmp(String text, String pattern) {
+        
         int[] lps = LPS.computeLPSArray(pattern);
-
-        int i = 0, j = 0;
-
+        
+        int i = 0, j = 0;        
+        
         while (i < text.length()) {
-
+            
             if (text.charAt(i) == pattern.charAt(j)) {
                 i++;
                 j++;
             }
-
+            
             if (j == pattern.length()) {
-                return i-j;
-
-            } else if (i == text.length()) {
-                break;
-
-            } else if (text.charAt(i) != pattern.charAt(j) && j > 0) {
-                j = lps[j - 1];  // se ele chegou a um certo sufixo, volta à posição do pattern após o prefixo igual ao ultimo sufixo percorrido.
-
-            } else { // como j já está em 0, obriga a andar com i
-                i++;
+                return i - j;
+                
+            } else if (i < text.length() && text.charAt(i) != pattern.charAt(j)) {
+                
+                if (j > 0) {
+                    j = lps[j - 1]; // // se ele chegou a um certo sufixo, volta à posição do pattern após o prefixo igual ao ultimo sufixo percorrido.
+                } else {
+                    i++; // como j já está em 0, obriga a andar com i
+                }
+                
             }
-
+            
+            
         }
-
-
+        
         return -1;
     }
 }
