@@ -20,7 +20,7 @@ should return 2 because there are three substrings of length 5 that are palindro
 
 The expected time complexity for this task is linear, which is $O(text.length)$.
 
-Usando rolling hash / robin karp
+Usando rolling hash / rabin karp
 */
 
 public class CountingPalindromicSubstrings {
