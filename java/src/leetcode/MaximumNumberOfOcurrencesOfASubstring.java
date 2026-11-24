@@ -1,105 +1,69 @@
 package leetcode;
 
 import java.util.*;
+// https://leetcode.com/problems/maximum-number-of-occurrences-of-a-substring/
 
 public class MaximumNumberOfOcurrencesOfASubstring {
+    // solution using rabin karp, there are some better ones
     public int maxFreq(String s, int maxLetters, int minSize, int maxSize) {
 
-        if (s.length() < minSize) return 0;
-
-        HashMap<Character, Integer> letters = new HashMap<>();
-        HashMap<String, Integer> quantity = new HashMap<>();
-
-        for (int i = 0; i < minSize; i++) {
-            Character c = s.charAt(i);
-            letters.put(c, letters.getOrDefault(c, 0) + 1);
-        }
-
-        int l = 0, r = minSize - 1;
-
-        while (l < s.length() && r < s.length()) {
-
-            int subLen = r - l + 1;
-
-            if (letters.size() <= maxLetters && subLen <= maxSize) {
-                String sub = s.substring(l, subLen);
-                quantity.put(sub, quantity.getOrDefault(sub, 0) + 1);
-            }
-
-            if (letters.size() <= maxLetters && subLen + 1 <= maxSize) {
-                r++;
-
-                if (r < s.length()) {
-                    Character c = s.charAt(r);
-                    letters.put(c, letters.getOrDefault(c, 0) + 1);
-                }
-
-            } else {
-
-                int shrink = maxSize - minSize - 1;
-                while (shrink > 0) {
-                    Character lastChar = s.charAt(r);
-                    letters.put(lastChar, letters.get(lastChar) - 1);
-
-                    if (letters.get(lastChar) == 0) {
-                        letters.remove(lastChar);
-                    }
-
-                    r--;
-                    shrink--;
-                }
-
-                l++;
-                Character c = s.charAt(l);
-                letters.put(c, letters.getOrDefault(c, 0) + 1);
-
-            }
-
-        }
-
+        Map<Character, Integer> uniqueLetters = new HashMap<>();
+        Map<Long, Integer> frequency = new HashMap<>();
 
         int max = 0;
 
-        for (Map.Entry<String, Integer> qt : quantity.entrySet()) {
-            max = Math.max(max, qt.getValue());
+        long hash = 0; // represents the substring
+        long base = 31;
+
+        // create first substring
+        for (int i = 0; i < minSize; i++) {
+            char c = s.charAt(i);
+            hash = hash * base + c;
+            uniqueLetters.put(c, uniqueLetters.getOrDefault(c, 0) + 1);
+        }
+        if (uniqueLetters.size() <= maxLetters) {
+            frequency.put(hash, 1);
+            max = Math.max(frequency.get(hash), max);
         }
 
-        return max;       
+        long firstPower = (long) Math.pow(base, minSize - 1);
+
+        // slide window, saving max
+        for (int i = minSize; i < s.length(); i++) {
+            char oldChar = s.charAt(i - minSize);
+            char newChar = s.charAt(i);
+
+            hash = (hash - oldChar * firstPower) * base + newChar;
+
+            uniqueLetters.put(oldChar, uniqueLetters.get(oldChar) - 1);
+            if (uniqueLetters.get(oldChar) == 0) uniqueLetters.remove(oldChar);
+            
+            uniqueLetters.put(newChar, uniqueLetters.getOrDefault(newChar, 0) + 1);
+
+            if (uniqueLetters.size() <= maxLetters) {
+                frequency.put(hash, frequency.getOrDefault(hash, 0) + 1);
+                max = Math.max(frequency.get(hash), max);
+            }
+        }
+
+        return max;
         
     }
 }
 
-
 /*
 
-aababcaab
+só precisa conferir as substrings minSize, pq elas sempre terão uma quantidade maior ou igual a maxSize.
 
-aab
-windSize = 3, letters = a,b
-aaba
-windSize = 4, letters = a,b
-aabab
-windSize = 5, letters = a,b
 
- aba
-windSize = 3, letters = a,b
- abab
-windSize = 4, letters = a,b
 
-  bab
-windSize = 3, letters = a,b 
-  babc
-windSize = 4, letters = a,b,c
 
-   abc
-windSize = 3, letters = a,b,c , pula inicio
 
-    bca
-windSize = 3, letters = a,b,c , pula inicio
+Map<Character, Integer> uniqueLetters = new HashMap<>();
+Map<Long, Integer> substringQuantity = new HashMap<>();
 
-     caa
-windSize = 3, letters = a,c 
-     caab
-windSize = 4, letters = a,c,b
+
+
+
 
 */
